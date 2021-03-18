@@ -25,7 +25,8 @@ export default (state = [], action) => {
             })
         case 'REMOVE_CONTACT':
             return state.filter(({ id }) => action.id !== id)
-
+        case 'SET_CONTACTS':
+            return action.contacts
         default:
             return state
     }

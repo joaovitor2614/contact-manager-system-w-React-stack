@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addContact } from '../actions/contacts'
+import { startAddContact } from '../actions/contacts'
 import ContactForm from './ContactForm'
 
 const AddContactPage = ({ history }) => {
     const dispatch = useDispatch();
     const handleSubmit = (contact) => {
 
-        dispatch(addContact(contact))
-        history.push('/')
+        dispatch(startAddContact(contact))
+        history.push('/dashboard')
     }
     return (
         <div>

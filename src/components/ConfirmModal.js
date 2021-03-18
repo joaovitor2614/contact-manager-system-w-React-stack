@@ -21,18 +21,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Modalc = ({ open, setId, nameToRemove }) => {
+const Modalc = ({ open, handleClose, handleRemove, removeId }) => {
     const dispatch = useDispatch
     const classes = useStyles();
 
 
 
-    const handleClose = () => {
-        setOpen(false);
-        setRemoveName('')
-        setIdRemove(null)
-
-    };
 
 
 
@@ -53,10 +47,10 @@ const Modalc = ({ open, setId, nameToRemove }) => {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h2 id="transition-modal-title">Remover {nameToRemove}</h2>
-                        <p id="transition-modal-description">Tem certeza que desejar remove {nameToRemove}</p>
+                        <h2 id="transition-modal-title">Remover contato</h2>
+                        <p id="transition-modal-description">Tem certeza que desejar remover esse contato?</p>
                         <Button onClick={handleClose} color="secondary">Cancelar</Button>
-                        <Button onClick={() => handleRemove(id)} color="secondary">Remover</Button>
+                        <Button onClick={() => handleRemove(removeId)} color="secondary">Remover</Button>
 
                     </div>
                 </Fade>

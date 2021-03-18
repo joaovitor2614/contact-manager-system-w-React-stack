@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import { timestamp } from '../firebase/firebase'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,6 +40,7 @@ const ContactForm = ({ handleSubmit, contact }) => {
         email: contact ? contact.email : '',
         picture: contact ? contact.picture : '',
         createdAt: contact ? contact.createdAt : {}
+
     }
 
 
@@ -70,16 +72,16 @@ const ContactForm = ({ handleSubmit, contact }) => {
                 validationSchema={contactSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(true)
+                    console.log(timestamp())
 
                     if (picture.length !== 0) {
                         values.picture = picture
                     }
-
                     if (Object.keys(values.createdAt).length === 0) {
-                        values.createdAt = moment();
-
+                        values.createdAt = timestamp();
 
                     }
+
 
                     console.log({
                         ...values

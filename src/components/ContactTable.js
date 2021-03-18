@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux'
-import { removeContact } from '../actions/contacts'
+import { startRemoveContact } from '../actions/contacts'
 import { defaultMale, defaultFemale } from '../mockData/contactUrl'
 import contactsFilter from '../selectors/contacts'
 import Table from '@material-ui/core/Table';
@@ -15,6 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import ConfirmModal from './ConfirmModal'
 
 
 const useStyles = makeStyles({
@@ -27,6 +28,8 @@ const useStyles = makeStyles({
 
 export default function ContactTable() {
     const dispatch = useDispatch();
+    const [open, setOpen] = useState(false)
+    const [removeId, setRemoveId] = useState(null)
 
 
     const classes = useStyles();
@@ -55,14 +58,30 @@ export default function ContactTable() {
 
     })
 
-    const operations = (id, nameToRemove = '') => (
+    const handleRemove = (id) => {
+        dispatch(startRemoveContact(id))
+        setOpen(false)
+        setRemoveId(null)
+    }
+
+    const handleOpen = (id) => {
+        setOpen(true)
+        setRemoveId(id)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+        setRemoveId(null)
+    }
+
+    const operations = (id) => (
         <div>
             <Link to={`/edit/${id}`}>
                 <IconButton aria-label="edit" disabled color="primary">
                     <EditIcon />
                 </IconButton>
             </Link>
-            <IconButton aria-label="remove" color="secondary">
+            <IconButton onClick={() => handleOpen(id)} aria-label="remove" color="secondary">
                 <DeleteIcon />
             </IconButton>
         </div>
@@ -89,7 +108,7 @@ export default function ContactTable() {
                     </TableHead>
                     <TableBody>
                         {rows.map((row) => (
-                            <TableRow key={row.name}>
+                            <TableRow key={row.operations}>
                                 <TableCell align="center">
                                     <img className='img-table' src={row.photo} alt="uploaded pic"
 
@@ -107,6 +126,7 @@ export default function ContactTable() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <ConfirmModal open={open} removeId={removeId} handleRemove={handleRemove} handleClose={handleClose} />
 
         </>
     );

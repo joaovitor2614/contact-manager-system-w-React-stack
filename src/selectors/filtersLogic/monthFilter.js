@@ -4,7 +4,7 @@ const filterMonth = (contact, month) => {
 
     switch (month) {
         case 'all':
-            console.log('all case')
+
             return contact
             break;
         case 'jan':
