@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios'
 import moment from 'moment'
 import { Router, Route, Switch, Link, NavLink, useHistory } from 'react-router-dom';
-
+import { timestamp } from '../firebase/firebase'
 import { useSelector, useDispatch } from 'react-redux'
 import { createBrowserHistory } from "history";
 import { saveUsers } from '../actions/contacts'
@@ -14,6 +14,7 @@ import AddContactPage from '../components/AddContactPage'
 import EditContactPage from '../components/EditContactPage'
 import PublicRoute from './PublicRoute'
 import PrivateRoute from './PrivateRoute'
+import LogoutPage from '../components/LogoutPage'
 
 
 export const history = createBrowserHistory()
@@ -21,27 +22,33 @@ export const history = createBrowserHistory()
 
 const AppRouter = () => {
 
-    const BASE_URL = 'https://dummyapi.io/data/api';
-    const APP_ID = '6052995d4eec71ebefc8d582'
-    const dispatch = useDispatch()
-    const contacts = useSelector(state => state.contacts)
 
+    const dispatch = useDispatch()
     const callApi = async () => {
-        const res = await axios.get(`${BASE_URL}/user`, { headers: { 'app-id': APP_ID } })
-        const data = res.data.data;
-        const fakeUsers = data.slice(1, 6)
-        fakeUsers.forEach((user) => {
+        const res = await axios.get('https://6042ac307f50e000173ac863.mockapi.io/api/contacts/contacts')
+        const users = res.data[0].contacts
+        console.log(users)
+        users.forEach((user) => {
+            user.createdAt = timestamp();
+            dispatch(saveUsers(user))
+        })  
+    }
+    useEffect(() => {
+         callApi();
+        return () => callApi
+    }, [])
+   
+   
+    /*if (users.length === 11) {
+        users.forEach((user) => {
             user.createdAt = moment();
             dispatch(saveUsers(user))
-
-
         })
-
     }
-    if (contacts.length === 0) {
-        callApi();
-    }
+    */
+    
 
+    
 
 
 
@@ -55,6 +62,7 @@ const AppRouter = () => {
                     <PrivateRoute path="/dashboard" component={DashboardPage} />
                     <PrivateRoute path="/list" component={ContactList} />
                     <PrivateRoute path="/create" component={AddContactPage} />
+                    <PrivateRoute path="/logout" component={LogoutPage} />
                     <PrivateRoute path="/edit/:id" component={EditContactPage} />
 
 

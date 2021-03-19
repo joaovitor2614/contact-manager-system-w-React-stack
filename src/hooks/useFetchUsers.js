@@ -2,26 +2,27 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const useFetchUsers = () => {
-    const [loading, setLoading] = useState(false);
+   
     const [users, setUsers] = useState(null);
-    const BASE_URL = 'https://dummyapi.io/data/api';
-    const APP_ID = '604e97f2fa012b6375b37f20'
+   
 
 
     useEffect(() => {
-        setLoading(true)
+      
 
-        const callApi = () => {
-            axios.get(`${BASE_URL}/user`, { headers: { 'app-id': APP_ID } })
-            .then((data) => setUsers(data))
+        const callApi = async () => {
+            await axios.get('https://6042ac307f50e000173ac863.mockapi.io/api/contacts/contacts')
+            .then((data) => setUsers(data.data[0].contacts))
             .catch(err => console.log(err))
-            .finally(() => setLoading(false))
+           
         }
-        callApi();
+       
         return () => callApi
     }, [])
+    console.log(users)
+    return users
 
-    return { loading, users }
+ 
 }
 
 export default useFetchUsers;

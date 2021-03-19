@@ -25,10 +25,10 @@ import ConfirmModal from './ConfirmModal'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: 345,
+        maxWidth: 270,
     },
     media: {
-        height: 150,
+        height: 130,
         paddingTop: '56.25%', // 16:9
     },
 
@@ -43,6 +43,7 @@ const ContactCard = ({ contact }) => {
     const [open, setOpen] = useState(false)
     const [removeId, setRemoveId] = useState(null)
     const dispatch = useDispatch();
+
     const date = contact.date ? contact.date : 'desconhecido', age = contact.age ? contact.age : 'desconhecido',
         gender = contact.gender ? contact.gender : 'desconhecido';
     const formattedAge = contact.age !== '' ? contact.age > 1 ? `${contact.age} anos` : `${contact.age} ano` : 'desconhecido'
@@ -119,3 +120,5 @@ const ContactCard = ({ contact }) => {
 }
 
 export default ContactCard
+
+

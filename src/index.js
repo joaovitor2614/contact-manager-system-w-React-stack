@@ -4,7 +4,7 @@ import AppRouter, { history } from './router/AppRouter'
 import LoadingPage from './components/LoadingPage'
 import { startSetContacts } from './actions/contacts'
 import { firebase } from './firebase/firebase'
-import { login, logout } from './actions/auth'
+import { login, logout, saveUserData } from './actions/auth'
 
 import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
@@ -37,6 +37,13 @@ firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         console.log("Logged in!")
         store.dispatch(login(user.uid))
+        const { displayName, photoURL } = user
+        const newUserData = {
+            displayName,
+            photoURL
+        }
+        store.dispatch(saveUserData(newUserData))
+        console.log(user.displayName, user.photoURL)
         store.dispatch(startSetContacts()).then(() => {
             renderApp()
             if (history.location.pathname === '/') {

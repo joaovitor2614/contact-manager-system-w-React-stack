@@ -40,3 +40,8 @@ export const startLogout = () => {
             })
     }
 }
+
+export const saveUserData = (data) => ({
+    type: 'USER_DATA',
+    data
+})
