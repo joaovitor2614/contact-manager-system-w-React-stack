@@ -5,8 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --open Chrome --config webpack.dev.js",
-    "build": "webpack serve --open Chrome --config webpack.prod.js"
+    "dev": "webpack serve --open Chrome --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "start": "node server/server.js",
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -51,6 +53,7 @@
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^7.0.1",
+    "express": "^4.17.1",
     "formik": "^2.2.6",
     "formik-material-ui": "^3.0.1",
     "yup": "^0.32.9"

@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
 
@@ -10,7 +11,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/template/template.html'
-        })
+        }),
+        new Dotenv() 
     ],
     module: {
         rules: [
@@ -41,6 +43,9 @@ module.exports = {
                 }
             }
         ]
+    },
+    devServer: {
+        historyApiFallback: true,
     }
 };
 
