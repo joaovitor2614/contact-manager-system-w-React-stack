@@ -66,9 +66,7 @@ export const editContact = (id, updates) => ({
 export const startEditContact = (id, updates) => {
     return (dispatch, getState) => {
         const uid = getState().auth
-        console.log(id)
-        console.log(updates)
-        console.log('until here...')
+    
         return database.ref(`contacts/${id}`).update(updates).then(() => {
             dispatch(editContact(id, updates))
         }).catch((error) => {

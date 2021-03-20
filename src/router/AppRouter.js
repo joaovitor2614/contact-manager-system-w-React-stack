@@ -27,7 +27,6 @@ const AppRouter = () => {
     const callApi = async () => {
         const res = await axios.get('https://6042ac307f50e000173ac863.mockapi.io/api/contacts/contacts')
         const users = res.data[0].contacts
-        console.log(users)
         users.forEach((user) => {
             user.createdAt = timestamp();
             dispatch(saveUsers(user))
@@ -39,20 +38,7 @@ const AppRouter = () => {
     }, [])
    
    
-    /*if (users.length === 11) {
-        users.forEach((user) => {
-            user.createdAt = moment();
-            dispatch(saveUsers(user))
-        })
-    }
-    */
-    
-
-    
-
-
-
-
+ 
     return (
         <Router history={history}>
             <div>
