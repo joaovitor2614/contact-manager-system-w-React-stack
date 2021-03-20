@@ -38,7 +38,7 @@ const DashboardPage = () => {
     const auth = useSelector(state => state.auth)
 
     let { contactsTotal, totalMale, totalFemale } = contactsBalance(contacts)
-    console.log(totalMale)
+ 
     const data = [
         {
             "id": "Mulheres",

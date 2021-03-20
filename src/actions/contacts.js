@@ -7,7 +7,7 @@ export const addContact = (contact) => ({
 
 export const startAddContact = (contactData = {}) => {
     return (dispatch, getState) => {
-
+        const uid = getState().auth.uid
         const {
             firstName = '',
             lastName = '',
@@ -20,8 +20,8 @@ export const startAddContact = (contactData = {}) => {
 
         } = contactData
         const contact = { firstName, lastName, gender, email, date, age, picture, createdAt }
-        console.log('until here...')
-        return database.ref(`contacts`).push(contact).then((ref) => {
+     
+        return database.ref(`users/${uid}/contacts`).push(contact).then((ref) => {
             dispatch(addContact({
                 id: ref.key,
                 ...contact
@@ -45,9 +45,9 @@ export const removeContact = (id) => ({
 export const startRemoveContact = (id) => {
     return (dispatch, getState) => {
 
-
-        console.log('until here...')
-        return database.ref(`contacts/${id}`).remove().then(() => {
+        const uid = getState().auth.uid
+      
+        return database.ref(`users/${uid}/contacts/${id}`).remove().then(() => {
             dispatch(removeContact(id))
         }).catch((error) => {
             console.log(error.name)
@@ -65,9 +65,9 @@ export const editContact = (id, updates) => ({
 
 export const startEditContact = (id, updates) => {
     return (dispatch, getState) => {
-        const uid = getState().auth
+        const uid = getState().auth.uid
     
-        return database.ref(`contacts/${id}`).update(updates).then(() => {
+        return database.ref(`users/${uid}/contacts/${id}`).update(updates).then(() => {
             dispatch(editContact(id, updates))
         }).catch((error) => {
             console.log(error.name)
@@ -84,9 +84,10 @@ export const setContacts = (contacts) => ({
 
 export const startSetContacts = () => {
     return (dispatch, getState) => {
-        console.log('set contacts here')
-        console.log('until here...')
-        return database.ref(`contacts`).once('value').then((snapshot) => {
+        const uid = getState().auth.uid
+
+     
+        return database.ref(`users/${uid}/contacts`).once('value').then((snapshot) => {
             let contacts = [];
             snapshot.forEach((childSnapshot) => {
                 contacts.push({
@@ -95,7 +96,7 @@ export const startSetContacts = () => {
                     ...childSnapshot.val()
                 })
             })
-            console.log(contacts)
+         
             dispatch(setContacts(contacts))
         }).catch((error) => {
             console.log(error.name)

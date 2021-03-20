@@ -17,7 +17,7 @@ const contactsBalance = (contacts) => {
             return;
         }
     })
-    console.log(contactsTotal, totalMale, totalFemale)
+
     return { contactsTotal, totalMale, totalFemale }
 }
 
